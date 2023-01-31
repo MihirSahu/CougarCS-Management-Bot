@@ -2,8 +2,7 @@ const { Client, ClientOptions, REST, SlashCommandBuilder, Routes, ChatInputComma
 import * as dotenv from 'dotenv';
 import ready from './Ready';
 import { commands } from './Commands';
-import { getEventsInfo, getMeetingsInfo, getTodoInfo, getMarketingInfo, formatInfo } from './Util';
-import { table } from 'table';
+import { sheetsList, getSheetsInfo, formatInfo, sendMessage } from './Util';
 
 
 dotenv.config();
@@ -26,38 +25,34 @@ rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
 	.then((data: any) => console.log(`Successfully registered ${data.length} application commands.`))
 	.catch(console.error);
 
-const table_config = {
-    singleLine: true,
-};
-
 client.on('interactionCreate', async (interaction: any) => {
 	if (!interaction.isChatInputCommand()) return;
 
         const { commandName } = interaction;
-        let res: any;
+        let res: string[][];
         switch(commandName){
             case 'hello':
                 await interaction.reply("Hello, world!");
                 break;
             case 'geteventsinfo':
                 await interaction.deferReply();
-                res = await getEventsInfo();
-                await interaction.editReply(res?.[0]?.[0]);
+                res = await getSheetsInfo(sheetsList[0]);
+                await sendMessage(interaction, res);
                 break;
             case 'getmeetingsinfo':
                 await interaction.deferReply();
-                res = await getMeetingsInfo();
-                await interaction.editReply(res?.[0]?.[0]);
+                res = await getSheetsInfo(sheetsList[1]);
+                await sendMessage(interaction, res);
                 break;
             case 'gettodoinfo':
                 await interaction.deferReply();
-                res = await getTodoInfo();
-                await interaction.editReply(table(formatInfo((await getTodoInfo()).slice(0, 4))), table_config);
+                res = await getSheetsInfo(sheetsList[2]);
+                await sendMessage(interaction, res);
                 break;
             case 'getmarketinginfo':
                 await interaction.deferReply();
-                res = await getMarketingInfo();
-                await interaction.editReply(res?.[0]?.[0]);
+                res = await getSheetsInfo(sheetsList[3]);
+                await sendMessage(interaction, res);
                 break;
         }
 });
