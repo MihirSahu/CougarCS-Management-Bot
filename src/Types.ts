@@ -4,7 +4,8 @@ export type SheetEvent = {
     eventTitle: string;
     location: string;
     partners: string[];
-    type: "Workshop 🧠" | "Social 🎉" | "Company Mixer 👨‍💼" | "UH Event 🎓";
+    //type: "Workshop 🧠" | "Social 🎉" | "Company Mixer 👨‍💼" | "UH Event 🎓";
+    type: string;
     talkingPoints: string;
     meetingLink: string;
     rsvpLink: string;
@@ -24,15 +25,17 @@ export type SheetMeeting = {
 
 export type SheetTodo = {
     deadline: Date;
-    status: "Not Started ❌" | "In-Progress ⚠️" | "Completed ✅" | "Postponed 👀" | "Canceled 💀";
+    //status: "Not Started ❌" | "In-Progress ⚠️" | "Completed ✅" | "Postponed 👀" | "Canceled 💀";
+    status: string;
     name: string;
-    asignees: string[];
-    description: string[];
+    asignees: string;
+    description: string;
 }
 
 export type SheetMarketing = {
     date: Date;
-    status: "Not Started ❌" | "In-Progress ⚠️" | "Completed ✅";
+    //status: "Not Started ❌" | "In-Progress ⚠️" | "Completed ✅";
+    status: string;
     description: string;
     platforms: string[];
     remarks: string;
