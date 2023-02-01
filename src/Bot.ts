@@ -2,7 +2,8 @@ const { Client, ClientOptions, REST, SlashCommandBuilder, Routes, ChatInputComma
 import * as dotenv from 'dotenv';
 import ready from './Ready';
 import { commands } from './Commands';
-import { sheetsList, getSheetsInfo, formatInfo, sendMessage } from './Util';
+import { sheetsList, getSheetsInfo, formatInfo, parseTodo } from './Util';
+import { SheetEvent, SheetMeeting, SheetTodo, SheetMarketing } from './Types';
 
 
 dotenv.config();
@@ -29,30 +30,32 @@ client.on('interactionCreate', async (interaction: any) => {
 	if (!interaction.isChatInputCommand()) return;
 
         const { commandName } = interaction;
-        let res: string[][];
+        let res: SheetEvent[] | SheetMeeting[] | SheetTodo[] | SheetMarketing[];
         switch(commandName){
             case 'hello':
                 await interaction.reply("Hello, world!");
                 break;
             case 'geteventsinfo':
                 await interaction.deferReply();
-                res = await getSheetsInfo(sheetsList[0]);
-                await sendMessage(interaction, res);
+                res = parseTodo(await getSheetsInfo(sheetsList[0]));
+                //await sendMessage(interaction, res);
                 break;
             case 'getmeetingsinfo':
                 await interaction.deferReply();
-                res = await getSheetsInfo(sheetsList[1]);
-                await sendMessage(interaction, res);
+                res = parseTodo(await getSheetsInfo(sheetsList[1]));
+                //await sendMessage(interaction, res);
                 break;
             case 'gettodoinfo':
                 await interaction.deferReply();
-                res = await getSheetsInfo(sheetsList[2]);
-                await sendMessage(interaction, res);
+                res = parseTodo(await getSheetsInfo(sheetsList[2]));
+                console.log(res);
+                await interaction.editReply("Hello!");
+                //await sendMessage(interaction, res);
                 break;
             case 'getmarketinginfo':
                 await interaction.deferReply();
-                res = await getSheetsInfo(sheetsList[3]);
-                await sendMessage(interaction, res);
+                res = parseTodo(await getSheetsInfo(sheetsList[3]));
+                //await sendMessage(interaction, res);
                 break;
         }
 });
