@@ -1,6 +1,8 @@
 import {google} from 'googleapis';
 import { table } from 'table';
 import { SheetEvent, SheetMeeting, SheetTodo, SheetMarketing } from './Types';
+import { EmbedBuilder } from 'discord.js';
+const paginationEmbed = require('discord.js-pagination');
 
 
 const googleApiAuth = process.env.GOOGLE_API_KEY
@@ -63,14 +65,29 @@ export const formatInfo = (info: any): string[][] => {
 }
 
 // TODO: Fix this
-// Handle interaction and send formatted message
-/*
-export const sendMessage = async (interaction: any, res: SheetEvent | SheetMeeting | SheetTodo | SheetMarketing) => {
+export const sendMessage = async (interaction: any, res: SheetEvent[] | SheetMeeting[] | SheetTodo[] | SheetMarketing[]): Promise<void> => {
     
     const table_config = {
         singleLine: true,
     };
 
+    // For discord.js-pagination
+    const embed1 = new EmbedBuilder();
+    const pages = [embed1];
+
+    console.log(res);
+
+    await interaction.editReply(paginationEmbed("Testing", pages));
+
+    /*
+    for (let row of res) {
+        for (let element in row) {
+            if (typeof element == String) {
+
+            }
+        }
+    }
+
     await interaction.editReply(table(formatInfo(res.slice(0, 4))), table_config);
+    */
 }
-*/
