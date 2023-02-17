@@ -5,12 +5,17 @@ import { EmbedBuilder } from 'discord.js';
 const paginationEmbed = require('discord.js-pagination');
 
 
-const googleApiAuth = process.env.GOOGLE_API_KEY
+// const googleApiAuth = process.env.GOOGLE_API_KEY
 const googleSpreadsheetID = process.env.GOOGLE_SPREADSHEET_ID
+
+const auth = new google.auth.GoogleAuth({
+  keyFile: './cougarcs-admin-portal-bdd9a28b6e3f.json',
+  scopes: ['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/spreadsheets'],
+});
 
 const sheets = google.sheets({
     version: 'v4',
-    auth: googleApiAuth,
+    auth: auth,
 });
 
 // List of sheets in the planner
@@ -73,7 +78,8 @@ export const sendMessage = async (interaction: any, res: SheetEvent[] | SheetMee
 
     // For discord.js-pagination
     const embed1 = new EmbedBuilder();
-    const pages = [embed1];
+    const embed2 = new EmbedBuilder();
+    const pages = [embed1, embed2];
 
     console.log(res);
 

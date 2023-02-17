@@ -2,7 +2,7 @@ const { Client, ClientOptions, REST, SlashCommandBuilder, Routes, ChatInputComma
 import * as dotenv from 'dotenv';
 import ready from './Ready';
 import { commands } from './Commands';
-import { sheetsList, getSheetsInfo, formatInfo, parseTodo } from './Util';
+import { sheetsList, getSheetsInfo, formatInfo, parseTodo, sendMessage } from './Util';
 import { SheetEvent, SheetMeeting, SheetTodo, SheetMarketing } from './Types';
 
 
@@ -49,6 +49,7 @@ client.on('interactionCreate', async (interaction: any) => {
                 await interaction.deferReply();
                 res = parseTodo(await getSheetsInfo(sheetsList[2]));
                 console.log(res);
+                sendMessage(interaction, res);
                 await interaction.editReply("Hello!");
                 //await sendMessage(interaction, res);
                 break;
